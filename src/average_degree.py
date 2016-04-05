@@ -112,7 +112,6 @@ def compute_graph(tweet_list):
       hashtag_sets.append(tweet["tags"])
     else:
       pass
-
   # Use a dictionary to track how many edges there are per node.
   # The key is each unique hashtag.
   # The value is a list of each hashtag with which it can be found in the same tweet.
@@ -133,19 +132,16 @@ def compute_graph(tweet_list):
   for k, v in hashtag_graph.items():
     # Converting to a set and then back to a list is a quick way to get rid of duplicate hashtags.
     v = list(set(v))
-
     # Make sure to drop the key hashtag itself from the list.
     # If for any reason the hashtag does not end up in the list, use a try/except to handle popping a value that doesn't exist.
     try:
       v.pop(v.index(k))
     except:
       print("Error: Key hashtag not present")
-    
     # Add the edge counts
     edge_counts.append(len(v))
   # Return the average edges per node
-  pdb.set_trace()
-  return sum(edge_counts)/float(len(edge_counts)*1.0)
+  return float(sum(edge_counts))/len(edge_counts)
 
 
 if __name__ == "__main__":
