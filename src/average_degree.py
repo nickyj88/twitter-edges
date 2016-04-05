@@ -73,15 +73,15 @@ def check_and_compute_new_tweet(tweet_list, new_tweet, delta=delta):
   if is_tweet_within_window(tweet_list, new_tweet):
     # Add the new tweet to the list
     tweet_list.append(new_tweet)
-    
     #Order the list of tweets so that we know most recent one is the last one.
-    sorted(tweet_list, key=(lambda t: t["timestamp"]))
+    tweet_list = sorted(tweet_list, key=(lambda t: t["timestamp"]))
     # tweet_list = sorted(tweet_list, key=get_date_key)
     
     # Check each tweet in case the newest addition would eliminate them from the graph.
     newest_timestamp = tweet_list[-1]["timestamp"]
-    tweet_list = filter(lambda x: x["timestamp"] - newest_timestamp < delta, tweet_list)
-  
+    pdb.set_trace()
+    tweet_list = list(filter(lambda x: x["timestamp"] - newest_timestamp < delta, tweet_list))
+    pdb.set_trace()
     result = compute_graph(tweet_list)
     last_result = result
 
