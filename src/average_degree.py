@@ -19,7 +19,6 @@ import json
 import ast
 import pdb 
 import sys
-import decimal
 
 delta = timedelta(seconds=60)
 
@@ -79,9 +78,8 @@ def check_and_compute_new_tweet(tweet_list, new_tweet, delta=delta):
     
     # Check each tweet in case the newest addition would eliminate them from the graph.
     newest_timestamp = tweet_list[-1]["timestamp"]
-    pdb.set_trace()
-    tweet_list = list(filter(lambda x: x["timestamp"] - newest_timestamp < delta, tweet_list))
-    pdb.set_trace()
+    tweet_list = list(filter(lambda x: x["timestamp"] > newest_timestamp - delta, tweet_list))
+
     result = compute_graph(tweet_list)
     last_result = result
 
@@ -93,7 +91,7 @@ def check_and_compute_new_tweet(tweet_list, new_tweet, delta=delta):
 # Check to see if the new tweet was created within 60 seconds of the newest tweet in the list.
 # Returns boolean.
 def is_tweet_within_window(tweet_list, new_tweet, delta=delta):
-  if len(tweet_list) == 0 or tweet_list[-1]["timestamp"] - new_tweet["timestamp"] < delta:
+  if len(tweet_list) == 0 or  new_tweet["timestamp"] > tweet_list[-1]["timestamp"] - delta:
     return True
   # If the tweet does not make it onto the list, just use the last result
   else:
